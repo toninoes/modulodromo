@@ -1,6 +1,7 @@
 resource "azurerm_resource_group" "this" {
   location = var.location
   name     = var.resource_group_name
+  tags     = var.tags
 }
 
 resource "azurerm_virtual_network" "this" {
@@ -8,6 +9,7 @@ resource "azurerm_virtual_network" "this" {
   location            = azurerm_resource_group.this.location
   name                = var.virtual_network_name
   resource_group_name = azurerm_resource_group.this.name
+  tags                = var.tags
 }
 
 resource "azurerm_subnet" "this" {

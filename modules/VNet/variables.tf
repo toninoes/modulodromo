@@ -4,6 +4,12 @@ variable "address_space" {
   description = "The address space that is used the virtual network. You can supply more than one address space."
 }
 
+variable "tags" {
+  description = "Common tags to be applied to all resources"
+  type        = map(string)
+  default     = {}
+}
+
 variable "location" {
   default     = "West Europe"
   description = "The location/region where the virtual network is created. Changing this forces a new resource to be created."
