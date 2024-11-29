@@ -19,16 +19,16 @@ variable "subnets" {
   description = "Map of subnets with their corresponding names and address prefixes"
   type = map(object({
     name    = string
-    address = string
+    address = list(string)
   }))
   default = {
     subnet1 = {
       name    = "subnet1"
-      address = "10.0.1.0/24"
+      address = ["10.0.1.0/24"]
     }
     subnet2 = {
       name    = "subnet2"
-      address = "10.0.2.0/24"
+      address = ["10.0.2.0/24"]
     }
   }
 }
