@@ -1,4 +1,4 @@
-output "vnet__name" {
+output "vnet_name" {
   description = "Name for VNet."
   value       = azurerm_virtual_network.this.name
 }
