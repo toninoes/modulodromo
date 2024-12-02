@@ -1,0 +1,29 @@
+---
+- name: Install Nginx on Azure VMs with specific tags
+  hosts: azure_vms
+  become: yes
+  tasks:
+    - name: Install Nginx on Azure VMs
+      apt:
+        name: nginx
+        state: present
+
+- name: Install htop on Azure VMs
+  hosts: azure_vms
+  become: yes
+  tasks:
+    - name: Ensure htop is installed
+      apt:
+        name: htop
+        state: present
+        
+- name: Install other packages
+  hosts: azure_vms
+  become: yes
+  tasks:
+    - name: Other some packages
+      apt: name={{ item }} update_cache=yes state=latest
+      with_items:
+        - git
+        - mcrypt
+        - sqlite3
