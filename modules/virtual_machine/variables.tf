@@ -1,3 +1,8 @@
+variable "application" {
+  description = "Application to assign to VM"
+  type        = string
+}
+
 variable "tags" {
   description = "Common tags to be applied to all resources"
   type        = map(string)
@@ -41,13 +46,30 @@ variable "virtual_network_resource_group" {
   type        = string
 }
 
-variable "vm_name" {
-  description = "The name of the Windows Virtual Machine. Changing this forces a new resource to be created."
+variable "admin_username" {
+  default     = "adminuser"
+  description = "The username of the local administrator used for the Virtual Machine. Changing this forces a new resource to be created."
   type        = string
 }
 
-variable "admin_pass" {
+variable "public_key_location" {
+  description = "The Public Key which should be used for authentication, which needs to be in ssh-rsa format with at least 2048-bit or in ssh-ed25519 format. Changing this forces a new resource to be created."
+  type        = string
+}
+
+variable "windows_admin_pass" {
   default     = "P@$$w0rd1234!"
   description = "The Password which should be used for the local-administrator on this Virtual Machine for Windows. Changing this forces a new resource to be created."
   type        = string
+}
+
+variable "enable_public_ip" {
+  default     = false
+  description = "Enable public IP to vitual machine"
+  type        = bool
+}
+
+variable "mi_ip" {
+  description = "IP to Allow connection from"
+  type = string
 }
