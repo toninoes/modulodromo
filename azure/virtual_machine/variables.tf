@@ -71,5 +71,5 @@ variable "enable_public_ip" {
 
 variable "mi_ip" {
   description = "IP to Allow connection from"
-  type = string
+  type        = string
 }
