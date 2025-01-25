@@ -1,12 +1,8 @@
 variables {
-  application                    = "mi-app"
-  mi_ip                          = "1.1.1.1"
-  public_key_location            = "~/.ssh/toninoes.pub"
-  resource_group_name            = "mi-resource-group-for-vm"
-  subnet_name                    = "mi-subnet"
-  virtual_network_name           = "mi-vnet-name"
-  virtual_network_resource_group = "vn-rg"
-  vm_name                        = "mi-vn-name"
+  name                 = "mi-vn-name"
+  resource_group_name  = "mi-resource-group-for-vm"
+  subnet_name          = "mi-subnet"
+  virtual_network_name = "mi-vnet-name"
 }
 
 mock_provider "azurerm" {
