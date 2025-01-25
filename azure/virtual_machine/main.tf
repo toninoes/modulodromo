@@ -115,30 +115,22 @@ resource "azurerm_network_security_group" "this" {
   name                = "${var.name}-nsg"
   location            = data.azurerm_resource_group.this.location
   resource_group_name = var.resource_group_name
+}
 
-  security_rule {
-    name                       = "AllowExternalConnectionFromSpecificIP"
-    priority                   = 1000
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = var.ss_oo == "linux" ? "22" : "3389"
-    source_address_prefix      = local.my_ip
-    destination_address_prefix = "*"
-  }
+resource "azurerm_network_security_rule" "this" {
+  count = var.enable_public_ip ? 1 : 0
 
-  security_rule {
-    name                       = "DenyAllInbound"
-    priority                   = 4096
-    direction                  = "Inbound"
-    access                     = "Deny"
-    protocol                   = "*"
-    source_port_range          = "*"
-    destination_port_range     = "*"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
+  name                        = "AllowExternalConnectionFromSpecificIP"
+  priority                    = 1000
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = var.ss_oo == "linux" ? "22" : "3389"
+  source_address_prefix       = local.my_ip
+  destination_address_prefix  = "*"
+  resource_group_name         = var.resource_group_name
+  network_security_group_name = azurerm_network_security_group.this.name
 }
 
 resource "azurerm_network_interface_security_group_association" "this" {
