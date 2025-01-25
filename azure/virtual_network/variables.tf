@@ -1,6 +1,5 @@
 variable "address_space" {
   type        = list(string)
-  default     = ["10.0.0.0/16"]
   description = "The address space that is used the virtual network. You can supply more than one address space."
 }
 
@@ -22,21 +21,12 @@ variable "resource_group_name" {
 }
 
 variable "subnets" {
-  description = "Map of subnets with their corresponding names and address prefixes"
-  type = map(object({
+  description = "List of subnets with their corresponding names and address prefixes"
+  type = list(object({
     name    = string
     address = list(string)
   }))
-  default = {
-    subnet1 = {
-      name    = "subnet1"
-      address = ["10.0.1.0/24"]
-    }
-    subnet2 = {
-      name    = "subnet2"
-      address = ["10.0.2.0/24"]
-    }
-  }
+  default = []
 }
 
 variable "virtual_network_name" {
