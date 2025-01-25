@@ -60,7 +60,7 @@ variable "enable_public_ip" {
 }
 
 variable "ssh_key_pairs_name" {
-  default     = "toninoes"
+  default     = "adminuser"
   description = "Name used to create SSH key pairs."
   type        = string
 }
