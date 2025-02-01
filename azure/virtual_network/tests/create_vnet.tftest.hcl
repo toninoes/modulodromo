@@ -28,3 +28,16 @@ run "create_vnet_with_default_values" {
     error_message = "The Virtual Network name should be ${var.virtual_network_name}"
   }
 }
+
+run "create_vnet_with_bastion" {
+  command = plan
+
+  variables {
+    subnet_addresses_for_bastion = ["10.0.0.0/26"]
+  }
+
+  assert {
+    condition     = azurerm_subnet.bastion[0].name == "AzureBastionSubnet"
+    error_message = "Should exists a subnet with the name AzureBastionSubnet"
+  }
+}
