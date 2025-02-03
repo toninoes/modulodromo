@@ -23,6 +23,16 @@ output "name" {
   description = "The name of the virtual network."
 }
 
+output "public_ip_bastion" {
+  value       = one(azurerm_public_ip.bastion[*].ip_address)
+  description = "Public IP for bastion host."
+}
+
+output "public_ip_vpn_gateway" {
+  value       = one(azurerm_public_ip.vpn_gateway[*].ip_address)
+  description = "Public IP for VPN Gateway."
+}
+
 output "resource_group_name" {
   value       = azurerm_virtual_network.this.resource_group_name
   description = "The name of the resource group in which to create the virtual network."

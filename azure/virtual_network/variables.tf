@@ -3,12 +3,6 @@ variable "address_space" {
   description = "The address space that is used the virtual network. You can supply more than one address space."
 }
 
-variable "location" {
-  default     = "West Europe"
-  description = "The location/region where the virtual network is created. Changing this forces a new resource to be created."
-  type        = string
-}
-
 variable "resource_group_name" {
   description = "The name of the resource group in which to create the virtual network. Changing this forces a new resource to be created"
   type        = string
@@ -33,6 +27,19 @@ variable "subnet_addresses_for_bastion" {
       for cidr in var.subnet_addresses_for_bastion : can(cidrnetmask(cidr)) && tonumber(split("/", cidr)[1]) <= 26
     ])
     error_message = "Each subnet address of 'subnet_address_for_bastion' should be a valid CIDR with a mask with at least /26."
+  }
+}
+
+variable "subnet_addresses_for_vpn_gateway" {
+  default     = []
+  description = "List of addresses for VPN Gateway."
+  type        = list(string)
+
+  validation {
+    condition = length(var.subnet_addresses_for_vpn_gateway) == 0 || alltrue([
+      for cidr in var.subnet_addresses_for_vpn_gateway : can(cidrnetmask(cidr)) && tonumber(split("/", cidr)[1]) <= 27
+    ])
+    error_message = "Each subnet address of 'subnet_addresses_for_vpn_gateway' should be a valid CIDR with a mask with at least /27."
   }
 }
 

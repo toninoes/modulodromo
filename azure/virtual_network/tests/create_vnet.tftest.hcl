@@ -41,3 +41,16 @@ run "create_vnet_with_bastion" {
     error_message = "Should exists a subnet with the name AzureBastionSubnet"
   }
 }
+
+run "create_vnet_with_vpn_gateway" {
+  command = plan
+
+  variables {
+    subnet_addresses_for_vpn_gateway = ["10.0.0.0/27"]
+  }
+
+  assert {
+    condition     = azurerm_subnet.vpn_gateway[0].name == "GatewaySubnet"
+    error_message = "Should exists a subnet with the name GatewaySubnet"
+  }
+}
