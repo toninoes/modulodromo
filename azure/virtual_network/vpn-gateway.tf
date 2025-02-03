@@ -13,7 +13,7 @@ resource "azurerm_public_ip" "vpn_gateway" {
   name                = "${var.virtual_network_name}-vpn-gateway-ip"
   location            = data.azurerm_resource_group.this.location
   resource_group_name = var.resource_group_name
-  allocation_method   = "Dynamic"
+  allocation_method   = "Static"
 }
 
 resource "azurerm_virtual_network_gateway" "this" {
