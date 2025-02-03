@@ -44,6 +44,6 @@ output "subnet" {
 }
 
 output "virtual_network_gateway_id" {
-  value       = azurerm_virtual_network_gateway.this.id
+  value       = one(azurerm_virtual_network_gateway.this[*].id)
   description = "Azure Virtual Network Gateway ID."
 }
