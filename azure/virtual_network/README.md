@@ -80,3 +80,4 @@ No modules.
 | public\_ip\_vpn\_gateway | Public IP for VPN Gateway. |
 | resource\_group\_name | The name of the resource group in which to create the virtual network. |
 | subnet | Blocks containing configuration of each subnet. |
+| virtual\_network\_gateway\_id | Azure Virtual Network Gateway ID. |

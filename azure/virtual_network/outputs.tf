@@ -42,3 +42,8 @@ output "subnet" {
   value       = { for subnet in azurerm_subnet.this : subnet.name => subnet }
   description = "Blocks containing configuration of each subnet."
 }
+
+output "virtual_network_gateway_id" {
+  value       = azurerm_virtual_network_gateway.this.id
+  description = "Azure Virtual Network Gateway ID."
+}
