@@ -18,5 +18,6 @@ output "ssh_key_private_name" {
 }
 
 output "ssh_key_public_name" {
-  value = one(local_file.pub[*].filename)
+  value      = one(local_file.pub[*].filename)
+  depends_on = [azurerm_linux_virtual_machine.this, azurerm_windows_virtual_machine.this]
 }
