@@ -109,6 +109,8 @@ resource "azurerm_network_interface" "this" {
   }
 
   tags = var.tags
+
+  depends_on = [azurerm_public_ip.this]
 }
 
 resource "azurerm_network_security_group" "this" {
@@ -136,4 +138,6 @@ resource "azurerm_network_security_rule" "this" {
 resource "azurerm_network_interface_security_group_association" "this" {
   network_interface_id      = azurerm_network_interface.this.id
   network_security_group_id = azurerm_network_security_group.this.id
+
+  depends_on = [azurerm_public_ip.this]
 }
