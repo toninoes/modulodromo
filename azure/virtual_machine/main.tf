@@ -92,7 +92,7 @@ resource "azurerm_public_ip" "this" {
   name                = "${var.name}-public-ip"
   location            = data.azurerm_resource_group.this.location
   resource_group_name = var.resource_group_name
-  allocation_method   = "Dynamic"
+  allocation_method   = "Static"
   sku                 = "Basic"
 }
 
