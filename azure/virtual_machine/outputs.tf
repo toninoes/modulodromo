@@ -13,6 +13,10 @@ output "nsg_name" {
   value       = azurerm_network_security_group.this.name
 }
 
-output "ssh_key_pair_name" {
+output "ssh_key_private_name" {
   value = one(local_file.pem[*].filename)
+}
+
+output "ssh_key_public_name" {
+  value = one(local_file.pub[*].filename)
 }
