@@ -5,7 +5,7 @@ output "private_ip" {
 
 output "public_ip" {
   description = "Public IP of virtual machine"
-  value       = var.enable_public_ip ? azurerm_public_ip.this[0].ip_address : null
+  value       = one(azurerm_public_ip.this[*].ip_address)
 }
 
 output "nsg_name" {
