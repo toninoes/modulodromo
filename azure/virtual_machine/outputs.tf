@@ -6,6 +6,8 @@ output "private_ip" {
 output "public_ip" {
   description = "Public IP of virtual machine"
   value       = one(azurerm_public_ip.this[*].ip_address)
+
+  depends_on = [azurerm_linux_virtual_machine.this, azurerm_windows_virtual_machine.this]
 }
 
 output "nsg_name" {
@@ -18,6 +20,5 @@ output "ssh_key_private_name" {
 }
 
 output "ssh_key_public_name" {
-  value      = one(local_file.pub[*].filename)
-  depends_on = [azurerm_linux_virtual_machine.this, azurerm_windows_virtual_machine.this]
+  value = one(local_file.pub[*].filename)
 }
