@@ -1,6 +1,16 @@
 # Site-to-Site IPsec VPN
 
-Manages a IPsec VPN
+Manages a Site-to-Site IPsec VPN.
+
+## What is a Site-to-Site VPN? 
+
+A Site-to-Site VPN (Virtual Private Network) is a connection that allows us to securely link two networks over the internet. 
+It extends our on-premises network into the cloud, making resources in both networks appear as if they're on the same local 
+network.
+
+## What is IPsec?
+IPsec (Internet Protocol Security) is a protocol suite used to secure internet communications. It works by encrypting each 
+IP packet in a data stream, providing confidentiality, integrity, and authentication of data communications over IP networks. 
 
 ## Usage
 
