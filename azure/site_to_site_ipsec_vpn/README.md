@@ -13,7 +13,7 @@ module "ipsec_vpn" {
   peer_name                  = "name-assigned-to-other-peer"
   resource_group_name        = "rg-your-rg-name"
   shared_key                 = "4-v3ry-53cr37-1p53c-5h4r3d-k3y"
-  virtual_network_gateway_id = "VGW-ID"
+  virtual_network_gateway_id = "/subscriptions/12345678-1234-9876-4563-123456789012/resourceGroups/example-resource-group/providers/Microsoft.Network/virtualNetworkGateways/virtualNetworkGatewayName"
   vnet_gw_conn_name          = "mi-vnet-gw"
 }
 ```
