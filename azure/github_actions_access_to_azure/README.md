@@ -1,4 +1,4 @@
-# Azure Virtual Network Module
+# GitHub Actions access to Azure Module
 
 This module allows your GitHub Actions workflows to access resources in Azure, without needing to store the Azure credentials 
 as long-lived GitHub secrets.
