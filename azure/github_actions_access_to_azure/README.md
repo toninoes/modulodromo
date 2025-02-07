@@ -35,3 +35,31 @@ module "gha_access_azure" {
   role_definition_name = "Reader"
 }
 ```
+
+Testing OIDC. Create a workflow under .github/workflows directory of your repo:
+```yml
+name: Run Azure CLI Login with OpenID Connect
+on: [push, workflow_dispatch]
+
+permissions:
+  id-token: write # Require write permission to Fetch an OIDC token.
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Azure CLI Login
+      uses: azure/login@v2
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+    - name: Azure CLI script
+      uses: azure/cli@v2
+      with:
+        azcliversion: latest
+        inlineScript: |
+          az account show
+          # You can write your Azure CLI inline scripts here.
+```
