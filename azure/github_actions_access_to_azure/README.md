@@ -30,6 +30,7 @@ module "gha_access_azure" {
   source = "git::git@github.com:toninoes/modulodromo.git//azure/github_actions_access_to_azure"
 
   app_display_name     = "my-app-name"
+  github_environment   = "sandbox"
   github_repository    = "my-repository"
   resource_group_name  = "mi-resource-group-for-gha-access-to-azure"
   role_definition_name = "Reader"
