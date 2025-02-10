@@ -1,5 +1,6 @@
 variables {
   app_display_name    = "my-app-name"
+  github_environment  = "sandbox"
   github_repository   = "my-repo"
   resource_group_name = "mi-resource-group-for-gha-access-to-azure"
 }
@@ -13,7 +14,11 @@ mock_provider "azurerm" {
 }
 
 provider "azuread" {
-  alias = "mocked"
+  alias = "mocked-azuread"
+}
+
+provider "github" {
+  alias = "mocked-github"
 }
 
 run "create_github_actions_access_to_azure" {
