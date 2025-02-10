@@ -42,7 +42,7 @@ variable "resource_group_name" {
 }
 
 variable "role_definition_name" {
-  default     = "Contributor"
+  default     = "Reader"
   description = "The name of a built-in Role. Changing this forces a new resource to be created."
   type        = string
 }

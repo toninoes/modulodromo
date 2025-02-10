@@ -33,7 +33,7 @@ module "gha_access_azure" {
   github_environment   = "sandbox"
   github_repository    = "my-repository"
   resource_group_name  = "mi-resource-group-for-gha-access-to-azure"
-  role_definition_name = "Reader"
+  role_definition_name = "Contributor"
 }
 ```
 
