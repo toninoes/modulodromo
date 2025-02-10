@@ -23,5 +23,26 @@ resource "azuread_application_federated_identity_credential" "this" {
   description    = var.federated_identity_credential_description
   display_name   = var.federated_identity_credential_display_name
   issuer         = "https://token.actions.githubusercontent.com"
-  subject        = "repo:${var.github_organization}/${var.github_repository}:ref:refs/heads/main"
+  subject        = "repo:${var.github_organization}/${var.github_repository}:environment:${var.github_environment}"
+}
+
+resource "github_actions_environment_secret" "azure_client_id" {
+  repository      = var.github_repository
+  environment     = var.github_environment
+  secret_name     = "AZURE_CLIENT_ID"
+  plaintext_value = azuread_application.this.client_id
+}
+
+resource "github_actions_environment_secret" "azure_subscription_id" {
+  repository      = var.github_repository
+  environment     = var.github_environment
+  secret_name     = "AZURE_SUBSCRIPTION_ID"
+  plaintext_value = data.azurerm_client_config.this.subscription_id
+}
+
+resource "github_actions_environment_secret" "azure_tenant_id" {
+  repository      = var.github_repository
+  environment     = var.github_environment
+  secret_name     = "AZURE_TENANT_ID"
+  plaintext_value = data.azuread_client_config.this.tenant_id
 }
