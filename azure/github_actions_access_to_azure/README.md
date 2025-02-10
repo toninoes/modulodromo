@@ -15,13 +15,7 @@ Overview of GitHub using Open ID Connect to authenticate to Azure:
 This module performs:
 - Create an Entra ID application and a service principal.
 - Add federated credentials for the Entra ID application.
-
-This module provides 3 outputs you will need to create secrets for AZURE_CLIENT_ID, AZURE_TENANT_ID, and AZURE_SUBSCRIPTION_ID. 
-Copy these values from your Microsoft Entra application for your GitHub secrets.
-
-To enhance workflow security in public repositories, use environment secrets instead of repository secrets. If the [environment 
-requires](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment#environment-secrets) 
-approval, a job cannot access environment secrets until one of the required reviewers approves it.
+- Also creates 3 environment secrets in your repo for AZURE_CLIENT_ID, AZURE_TENANT_ID, and AZURE_SUBSCRIPTION_ID. 
 
 ## Usage
 
