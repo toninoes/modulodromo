@@ -17,3 +17,8 @@ output "web_app_name" {
   description = "Web App name."
   value       = azurerm_linux_web_app.this.name
 }
+
+output "container_registry_name" {
+  description = "Container registry name."
+  value       = azurerm_container_registry.this.name
+}
