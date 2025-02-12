@@ -31,6 +31,16 @@ variable "github_organization" {
 variable "github_environment" {
   description = "Name of the environment of the GitHub repository."
 }
+
+variable "github_extra_secrets" {
+  description = "Extra GitHub environment secrets."
+  type = list(object({
+    name  = string
+    value = string
+  }))
+  default = []
+}
+
 variable "github_repository" {
   description = "GitHub repository which contains GitHub Actions workflows to access resources in Azure."
   type        = string

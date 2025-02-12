@@ -46,3 +46,12 @@ resource "github_actions_environment_secret" "azure_tenant_id" {
   secret_name     = "AZURE_TENANT_ID"
   plaintext_value = data.azuread_client_config.this.tenant_id
 }
+
+resource "github_actions_environment_secret" "extra_secrets" {
+  for_each = { for secret in var.github_extra_secrets : secret.name => secret }
+
+  repository      = var.github_repository
+  environment     = var.github_environment
+  secret_name     = each.key
+  plaintext_value = each.value.value
+}
