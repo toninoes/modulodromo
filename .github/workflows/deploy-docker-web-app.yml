@@ -3,38 +3,6 @@ name: deploy-docker-web-app
 on:
   workflow_call: # Allows to call this job from another workflow
     inputs:
-      acr_login_server:
-        description: "The URL used to log into the Azure Container Registry."
-        required: true
-        type: string
-      acr_username:
-        description: "Username used to log into the Azure Container Registry."
-        required: true
-        type: string
-      acr_password:
-        description: "Password used to log into the Azure Container Registry."
-        required: true
-        type: string
-      acr_container_name:
-        description: "Container name for Azure Container registry"
-        required: true
-        type: string
-      azure_client_id:
-        description: "The client (application) ID of an App Registration in the tenant."
-        required: true
-        type: string
-      azure_subscription_id:
-        description: "A unique identifier for your Azure subscription. It's a 32-character alphanumeric string."
-        required: true
-        type: string
-      azure_tenant_id:
-        description: "A unique identifier associated with your Azure Active Directory (Azure AD) tenant."
-        required: true
-        type: string
-      azure_webapp_name:
-        description: "Name for Azure Webapp."
-        required: true
-        type: string
       environment:
         description: "Environment to deploy."
         required: true
@@ -44,6 +12,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
+
     permissions:
       id-token: write
       contents: read
@@ -55,30 +24,30 @@ jobs:
     - name: Login to Azure Container Registry
       uses: azure/docker-login@v2
       with:
-        login-server: ${{ inputs.acr_login_server }}
-        username: ${{ inputs.acr_username }}
-        password: ${{ inputs.acr_password }}
+        login-server: ${{ secrets.ACR_LOGIN_SERVER }}
+        username: ${{ secrets.ACR_USERNAME }}
+        password: ${{ secrets.ACR_PASSWORD }}
 
     - name: Build and Push Docker image
       run: |
-        docker build -t ${{ inputs.acr_login_server }}/${{ inputs.acr_container_name }}:${{ github.sha }} .
-        docker tag ${{ inputs.acr_login_server }}/${{ inputs.acr_container_name }}:${{ github.sha }} ${{ inputs.acr_login_server }}/${{ inputs.acr_container_name }}:latest
-        docker push ${{ inputs.acr_login_server }}/${{ inputs.acr_container_name }}:${{ github.sha }}
-        docker push ${{ inputs.acr_login_server }}/${{ inputs.acr_container_name }}:latest
+        docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/${{ secrets.ACR_CONTAINER_NAME }}:${{ github.sha }} .
+        docker tag ${{ secrets.ACR_LOGIN_SERVER }}/${{ secrets.ACR_CONTAINER_NAME }}:${{ github.sha }} ${{ secrets.ACR_LOGIN_SERVER }}/${{ secrets.ACR_CONTAINER_NAME }}:latest
+        docker push ${{ secrets.ACR_LOGIN_SERVER }}/${{ secrets.ACR_CONTAINER_NAME }}:${{ github.sha }}
+        docker push ${{ secrets.ACR_LOGIN_SERVER }}/${{ secrets.ACR_CONTAINER_NAME }}:latest
 
     - name: Azure CLI Login
       uses: azure/login@v2
       with:
-        client-id: ${{ inputs.azure_client_id }}
-        subscription-id: ${{ inputs.azure_subscription_id }}
-        tenant-id: ${{ inputs.azure_tenant_id }}
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
-        app-name: ${{ inputs.azure_webapp_name }}
-        images: ${{ inputs.acr_login_server }}/${{ inputs.acr_container_name }}:${{ github.sha }}
+        app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
         slot-name: production
+        images: ${{ secrets.ACR_LOGIN_SERVER }}/${{ secrets.ACR_CONTAINER_NAME }}:${{ github.sha }}
 
     - name: Azure CLI Logout
       run: az logout
