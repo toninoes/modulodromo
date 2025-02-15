@@ -1,14 +1,12 @@
-# Containerized App Service
+# Containerized web app with Azure App Service
 
 Creates a containerized App Service
-
-
 
 ## Usage
 
 ```hcl
 module "my_app" {
-  source = "git::git@github.com:toninoes/modulodromo.git//azure/app_service_containerized"
+  source = "git::git@github.com:toninoes/modulodromo.git//azure/app_service_docker"
 
   app_name            = "myapp"
   resource_group_name = "rg-your-rg-name"
@@ -54,4 +52,10 @@ No modules.
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| container\_registry\_admin\_password | The Password associated with the Container Registry Admin account - if the admin account is enabled. |
+| container\_registry\_admin\_username | The Username associated with the Container Registry Admin account - if the admin account is enabled. |
+| container\_registry\_login\_server | The URL used to log into the container registry. |
+| container\_registry\_name | Container registry name. |
+| web\_app\_name | Web App name. |
