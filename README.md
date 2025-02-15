@@ -7,5 +7,7 @@ Modulodromo is the place where I will store all my modules, reusable GitHub Acti
   - [Site-to-Site IPsec VPN](azure/site_to_site_ipsec_vpn)
   - [Virtual Machine](azure/virtual_machine)
   - [Virtual Network](azure/virtual_network)
+  - [Create App Service with Docker](azure/app_service_docker)
 - [AWS (Terraform)](aws)
-- [GHA workflows](.github/workflows)
+- GHA workflows
+  - [Deploy App Service: Web App for Containers](.github/workflows/deploy-docker-web-app.yml)
