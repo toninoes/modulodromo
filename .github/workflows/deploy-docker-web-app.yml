@@ -7,6 +7,10 @@ on:
         description: "Environment to deploy."
         required: true
         type: string
+      branch:
+        description: "Branch to deploy"
+        type: string
+        required: true
 
 jobs:
   build-and-deploy:
@@ -20,6 +24,8 @@ jobs:
     steps:
     - name: Checkout the code
       uses: actions/checkout@v4
+      with:
+        ref: ${{ inputs.branch }}
 
     - name: Login to Azure Container Registry
       uses: azure/docker-login@v2
