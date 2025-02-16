@@ -30,6 +30,7 @@ variable "github_organization" {
 
 variable "github_environment" {
   description = "Name of the environment of the GitHub repository."
+  type        = string
 }
 
 variable "github_extra_secrets" {
