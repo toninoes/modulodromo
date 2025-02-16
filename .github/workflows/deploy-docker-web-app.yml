@@ -3,6 +3,10 @@ name: deploy-docker-web-app
 on:
   workflow_call: # Allows to call this job from another workflow
     inputs:
+      azure_container_registry:
+        description: "Name for Azure Container Registry."
+        required: true
+        type: string
       azure_webapp_name:
         description: "Name for Azure App Service."
         required: true
@@ -31,20 +35,6 @@ jobs:
       with:
         ref: ${{ inputs.branch }}
 
-    - name: Login to Azure Container Registry
-      uses: azure/docker-login@v2
-      with:
-        login-server: ${{ secrets.ACR_LOGIN_SERVER }}
-        username: ${{ secrets.ACR_USERNAME }}
-        password: ${{ secrets.ACR_PASSWORD }}
-
-    - name: Build and Push Docker image
-      run: |
-        docker build -t ${{ secrets.ACR_LOGIN_SERVER }}/${{ secrets.ACR_CONTAINER_NAME }}:${{ github.sha }} .
-        docker tag ${{ secrets.ACR_LOGIN_SERVER }}/${{ secrets.ACR_CONTAINER_NAME }}:${{ github.sha }} ${{ secrets.ACR_LOGIN_SERVER }}/${{ secrets.ACR_CONTAINER_NAME }}:latest
-        docker push ${{ secrets.ACR_LOGIN_SERVER }}/${{ secrets.ACR_CONTAINER_NAME }}:${{ github.sha }}
-        docker push ${{ secrets.ACR_LOGIN_SERVER }}/${{ secrets.ACR_CONTAINER_NAME }}:latest
-
     - name: Azure CLI Login
       uses: azure/login@v2
       with:
@@ -52,12 +42,41 @@ jobs:
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+    - name: Get ACR Login Server
+      id: get_login_server
+      run: |
+        echo "login_server=$(az acr credential show --name ${{ inputs.azure_container_registry }} --query loginServer --output tsv)" >> $GITHUB_ENV
+
+    - name: Get ACR Username
+      id: get_username
+      run: |
+        echo "acr_username=$(az acr credential show --name ${{ inputs.azure_container_registry }} --query username --output tsv)" >> $GITHUB_ENV
+
+    - name: Get ACR Password
+      id: get_password
+      run: |
+        echo "acr_password=$(az acr credential show --name ${{ inputs.azure_container_registry }} --query "passwords[?name=='password'].value" --output tsv)" >> $GITHUB_ENV
+
+    - name: Login to Azure Container Registry
+      uses: azure/docker-login@v2
+      with:
+        login-server: ${{ env.login_server }}
+        username: ${{ env.acr_username }}
+        password: ${{ env.acr_password }}
+
+    - name: Build and Push Docker image
+      run: |
+        docker build -t ${{ env.login_server }}/${{ inputs.azure_container_registry }}:${{ github.sha }} .
+        docker tag ${{ env.login_server }}/${{ inputs.azure_container_registry }}:${{ github.sha }} ${{ env.login_server }}/${{ inputs.azure_container_registry }}:latest
+        docker push ${{ env.login_server }}/${{ inputs.azure_container_registry }}:${{ github.sha }}
+        docker push ${{ env.login_server }}/${{ inputs.azure_container_registry }}:latest
+
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ inputs.azure_webapp_name }}
         slot-name: production
-        images: ${{ secrets.ACR_LOGIN_SERVER }}/${{ secrets.ACR_CONTAINER_NAME }}:${{ github.sha }}
+        images: ${{ env.login_server }}/${{ inputs.azure_container_registry }}:${{ github.sha }}
 
     - name: Azure CLI Logout
       run: az logout
