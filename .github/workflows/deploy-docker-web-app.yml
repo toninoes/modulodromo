@@ -45,7 +45,7 @@ jobs:
     - name: Get ACR Login Server
       id: get_login_server
       run: |
-        echo "login_server=$(az acr credential show --name ${{ inputs.azure_container_registry }} --query loginServer --output tsv)" >> $GITHUB_ENV
+        echo "login_server=$(az acr show --name ${{ inputs.azure_container_registry }} --query loginServer --output tsv)" >> $GITHUB_ENV
 
     - name: Get ACR Username
       id: get_username
