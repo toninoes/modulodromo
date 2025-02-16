@@ -26,32 +26,28 @@ resource "azuread_application_federated_identity_credential" "this" {
   subject        = "repo:${var.github_organization}/${var.github_repository}:environment:${var.github_environment}"
 }
 
-resource "github_actions_environment_secret" "azure_client_id" {
+resource "github_actions_secret" "azure_client_id" {
   repository      = var.github_repository
-  environment     = var.github_environment
   secret_name     = "AZURE_CLIENT_ID"
   plaintext_value = azuread_application.this.client_id
 }
 
-resource "github_actions_environment_secret" "azure_subscription_id" {
+resource "github_actions_secret" "azure_subscription_id" {
   repository      = var.github_repository
-  environment     = var.github_environment
   secret_name     = "AZURE_SUBSCRIPTION_ID"
   plaintext_value = data.azurerm_client_config.this.subscription_id
 }
 
-resource "github_actions_environment_secret" "azure_tenant_id" {
+resource "github_actions_secret" "azure_tenant_id" {
   repository      = var.github_repository
-  environment     = var.github_environment
   secret_name     = "AZURE_TENANT_ID"
   plaintext_value = data.azuread_client_config.this.tenant_id
 }
 
-resource "github_actions_environment_secret" "extra_secrets" {
+resource "github_actions_secret" "extra_secrets" {
   for_each = { for secret in var.github_extra_secrets : secret.name => secret }
 
   repository      = var.github_repository
-  environment     = var.github_environment
   secret_name     = each.key
   plaintext_value = each.value.value
 }
