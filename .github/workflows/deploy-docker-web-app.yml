@@ -3,6 +3,10 @@ name: deploy-docker-web-app
 on:
   workflow_call: # Allows to call this job from another workflow
     inputs:
+      azure_webapp_name:
+        description: "Name for Azure App Service."
+        required: true
+        type: string
       environment:
         description: "Environment to deploy."
         required: true
@@ -51,7 +55,7 @@ jobs:
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
-        app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
+        app-name: ${{ inputs.azure_weapp_name }}
         slot-name: production
         images: ${{ secrets.ACR_LOGIN_SERVER }}/${{ secrets.ACR_CONTAINER_NAME }}:${{ github.sha }}
 
