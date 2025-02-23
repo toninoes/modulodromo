@@ -42,6 +42,10 @@ resource "azurerm_linux_web_app" "this" {
     type = "SystemAssigned"
   }
 
+  lifecycle {
+    ignore_changes = [site_config]
+  }
+
   tags = var.tags
 }
 
@@ -64,6 +68,10 @@ resource "azurerm_linux_web_app_slot" "this" {
 
   identity {
     type = "SystemAssigned"
+  }
+
+  lifecycle {
+    ignore_changes = [site_config]
   }
 
   tags = var.tags
