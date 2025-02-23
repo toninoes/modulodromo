@@ -11,10 +11,6 @@ on:
         description: "Name for Azure App Service."
         required: true
         type: string
-      environment:
-        description: "Environment to deploy."
-        required: true
-        type: string
       branch:
         description: "Branch to deploy"
         type: string
