@@ -40,29 +40,29 @@ jobs:
 
     - name: Get ACR Login Server
       run: |
-        echo "login_server=$(az acr show --name ${{ inputs.azure_container_registry }} --query loginServer --output tsv)" >> $GITHUB_ENV
+        echo "LOGIN_SERVER=$(az acr show --name ${{ inputs.azure_container_registry }} --query loginServer --output tsv)" >> $GITHUB_ENV
 
     - name: Get ACR Username
       run: |
-        echo "acr_username=$(az acr credential show --name ${{ inputs.azure_container_registry }} --query username --output tsv)" >> $GITHUB_ENV
+        echo "ACR_USERNAME=$(az acr credential show --name ${{ inputs.azure_container_registry }} --query username --output tsv)" >> $GITHUB_ENV
 
     - name: Get ACR Password
       run: |
-        echo "acr_password=$(az acr credential show --name ${{ inputs.azure_container_registry }} --query "passwords[?name=='password'].value" --output tsv)" >> $GITHUB_ENV
+        echo "ACR_PASSWORD=$(az acr credential show --name ${{ inputs.azure_container_registry }} --query "passwords[?name=='password'].value" --output tsv)" >> $GITHUB_ENV
 
     - name: Login to Azure Container Registry
       uses: azure/docker-login@v2
       with:
-        login-server: ${{ env.login_server }}
-        username: ${{ env.acr_username }}
-        password: ${{ env.acr_password }}
+        login-server: ${{ env.LOGIN_SERVER }}
+        username: ${{ env.ACR_USERNAME }}
+        password: ${{ env.ACR_PASSWORD }}
 
     - name: Build and Push Docker image
       run: |
-        docker build -t ${{ env.login_server }}/${{ inputs.azure_container_registry }}:${{ github.sha }} .
-        docker tag ${{ env.login_server }}/${{ inputs.azure_container_registry }}:${{ github.sha }} ${{ env.login_server }}/${{ inputs.azure_container_registry }}:latest
-        docker push ${{ env.login_server }}/${{ inputs.azure_container_registry }}:${{ github.sha }}
-        docker push ${{ env.login_server }}/${{ inputs.azure_container_registry }}:latest
+        docker build -t ${{ env.LOGIN_SERVER }}/${{ inputs.azure_container_registry }}:${{ github.sha }} .
+        docker tag ${{ env.LOGIN_SERVER }}/${{ inputs.azure_container_registry }}:${{ github.sha }} ${{ env.LOGIN_SERVER }}/${{ inputs.azure_container_registry }}:latest
+        docker push ${{ env.LOGIN_SERVER }}/${{ inputs.azure_container_registry }}:${{ github.sha }}
+        docker push ${{ env.LOGIN_SERVER }}/${{ inputs.azure_container_registry }}:latest
 
     - name: Azure CLI Logout
       run: az logout
@@ -89,7 +89,7 @@ jobs:
       with:
         app-name: ${{ inputs.azure_webapp_name }}
         slot-name: staging
-        images: ${{ needs.build.outputs.login_server }}/${{ inputs.azure_container_registry }}:latest
+        images: $LOGIN_SERVER/${{ inputs.azure_container_registry }}:latest
 
     - name: Azure CLI Logout
       run: az logout
@@ -116,7 +116,7 @@ jobs:
       with:
         app-name: ${{ inputs.azure_webapp_name }}
         slot-name: production
-        images: ${{ needs.build.outputs.login_server }}/${{ inputs.azure_container_registry }}:latest
+        images: $LOGIN_SERVER/${{ inputs.azure_container_registry }}:latest
 
     - name: Azure CLI Logout
       run: az logout
