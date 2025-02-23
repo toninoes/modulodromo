@@ -26,12 +26,29 @@ variable "service_plan_sku_name" {
 }
 
 variable "tags" {
+  default     = {}
   description = "Common tags to be applied to all resources"
   type        = map(string)
-  default     = {}
+}
+
+variable "minimum_tls_version" {
+  default     = "1.2"
+  description = "The configures the minimum version of TLS required for SSL requests. Possible values include: 1.0, 1.1, 1.2 and 1.3"
+  type        = string
+
+  validation {
+    condition     = contains(["1.0", "1.1", "1.2", "1.3"], var.minimum_tls_version)
+    error_message = "Invalid minimum version of TLS. Valid options are 1.0, 1.1, 1.2 and 1.3"
+  }
 }
 
 variable "resource_group_name" {
   description = "The name of the resource group in which to create the virtual machine. Changing this forces a new resource to be created"
+  type        = string
+}
+
+variable "web_app_slot_name" {
+  default     = "staging"
+  description = "The name which should be used for this Linux Web App Slot. Changing this forces a new Linux Web App Slot to be created."
   type        = string
 }
