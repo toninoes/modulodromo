@@ -66,13 +66,6 @@ jobs:
         docker push ${{ env.login_server }}/${{ inputs.azure_container_registry }}:${{ github.sha }}
         docker push ${{ env.login_server }}/${{ inputs.azure_container_registry }}:latest
 
-    - name: Deploy to ${{ inputs.environment }} Slot. (Manual Approval Required in Production)
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: ${{ inputs.azure_webapp_name }}
-        slot-name: ${{ inputs.environment }}
-        images: ${{ env.login_server }}/${{ inputs.azure_container_registry }}:${{ github.sha }}
-
     - name: Azure CLI Logout
       run: az logout
 
@@ -86,40 +79,46 @@ jobs:
       contents: read
 
     steps:
-      - name: Azure CLI Login
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+    - name: Azure CLI Login
+      uses: azure/login@v2
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Deploy to staging Slot.
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: ${{ inputs.azure_webapp_name }}
-          slot-name: staging
-          images: ${{ env.login_server }}/${{ inputs.azure_container_registry }}:${{ github.sha }}
+    - name: Deploy to staging Slot.
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ inputs.azure_webapp_name }}
+        slot-name: staging
+        images: ${{ env.login_server }}/${{ inputs.azure_container_registry }}:${{ github.sha }}
+
+    - name: Azure CLI Logout
+      run: az logout
 
   deploy-production:
     needs: deploy-staging
     runs-on: ubuntu-latest
-    environment: staging
+    environment: production
 
     permissions:
       id-token: write
       contents: read
 
     steps:
-      - name: Azure CLI Login
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+    - name: Azure CLI Login
+      uses: azure/login@v2
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Deploy to staging Slot. (Manual Approval Required)
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: ${{ inputs.azure_webapp_name }}
-          slot-name: production
-          images: ${{ env.login_server }}/${{ inputs.azure_container_registry }}:${{ github.sha }}
+    - name: Deploy to staging Slot. (Manual Approval Required)
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ inputs.azure_webapp_name }}
+        slot-name: production
+        images: ${{ env.login_server }}/${{ inputs.azure_container_registry }}:${{ github.sha }}
+
+    - name: Azure CLI Logout
+      run: az logout
