@@ -101,7 +101,7 @@ jobs:
           images: ${{ env.login_server }}/${{ inputs.azure_container_registry }}:${{ github.sha }}
 
   deploy-production:
-    needs: build
+    needs: deploy-staging
     runs-on: ubuntu-latest
     environment: staging
 
