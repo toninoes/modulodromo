@@ -92,7 +92,7 @@ jobs:
       with:
         app-name: ${{ inputs.azure_webapp_name }}
         slot-name: staging
-        images: ${{ needs.build.outputs.LOGIN_SERVER }}/${{ inputs.azure_container_registry }}:latest
+        images: toninoes.azurecr.io/${{ inputs.azure_container_registry }}:latest
 
     - name: Azure CLI Logout
       run: az logout
@@ -119,7 +119,7 @@ jobs:
       with:
         app-name: ${{ inputs.azure_webapp_name }}
         slot-name: production
-        images: ${{ needs.build.outputs.LOGIN_SERVER }}/${{ inputs.azure_container_registry }}:latest
+        images: toninoes.azurecr.io/${{ inputs.azure_container_registry }}:latest
 
     - name: Azure CLI Logout
       run: az logout
