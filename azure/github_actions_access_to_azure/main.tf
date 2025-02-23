@@ -23,7 +23,7 @@ resource "azuread_application_federated_identity_credential" "this" {
   description    = var.federated_identity_credential_description
   display_name   = var.federated_identity_credential_display_name
   issuer         = "https://token.actions.githubusercontent.com"
-  subject        = "repo:${var.github_organization}/${var.github_repository}:environment:${var.github_environment}"
+  subject        = "repo:${var.github_organization}/${var.github_repository}:ref:refs/heads/*"
 }
 
 resource "github_actions_secret" "azure_client_id" {
