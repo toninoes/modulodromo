@@ -32,18 +32,30 @@ resource "github_actions_secret" "azure_client_id" {
   repository      = var.github_repository
   secret_name     = "AZURE_CLIENT_ID"
   plaintext_value = azuread_application.this.client_id
+
+  lifecycle {
+    ignore_changes = [plaintext_value]
+  }
 }
 
 resource "github_actions_secret" "azure_subscription_id" {
   repository      = var.github_repository
   secret_name     = "AZURE_SUBSCRIPTION_ID"
   plaintext_value = data.azurerm_client_config.this.subscription_id
+
+  lifecycle {
+    ignore_changes = [plaintext_value]
+  }
 }
 
 resource "github_actions_secret" "azure_tenant_id" {
   repository      = var.github_repository
   secret_name     = "AZURE_TENANT_ID"
   plaintext_value = data.azuread_client_config.this.tenant_id
+
+  lifecycle {
+    ignore_changes = [plaintext_value]
+  }
 }
 
 resource "github_actions_secret" "extra_secrets" {
@@ -52,4 +64,8 @@ resource "github_actions_secret" "extra_secrets" {
   repository      = var.github_repository
   secret_name     = each.key
   plaintext_value = each.value.value
+
+  lifecycle {
+    ignore_changes = [plaintext_value]
+  }
 }
