@@ -20,8 +20,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     environment: build
-    outputs:
-      LOGIN_SERVER: ${{ steps.get_login_server.outputs.LOGIN_SERVER }}
 
     permissions:
       id-token: write
@@ -41,9 +39,8 @@ jobs:
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
     - name: Get ACR Login Server
-      id: get_login_server
       run: |
-        echo "LOGIN_SERVER=$(az acr show --name ${{ inputs.azure_container_registry }} --query loginServer --output tsv)" >> $GITHUB_ENV
+        echo "LOGIN_SERVER=${{ inputs.azure_container_registry }}.azurecr.io" >> $GITHUB_ENV
 
     - name: Get ACR Username
       run: |
@@ -92,7 +89,7 @@ jobs:
       with:
         app-name: ${{ inputs.azure_webapp_name }}
         slot-name: staging
-        images: toninoes.azurecr.io/${{ inputs.azure_container_registry }}:latest
+        images: ${{ inputs.azure_container_registry }}.azurecr.io/${{ inputs.azure_container_registry }}:latest
 
     - name: Azure CLI Logout
       run: az logout
@@ -119,7 +116,7 @@ jobs:
       with:
         app-name: ${{ inputs.azure_webapp_name }}
         slot-name: production
-        images: toninoes.azurecr.io/${{ inputs.azure_container_registry }}:latest
+        images: ${{ inputs.azure_container_registry }}.azurecr.io/${{ inputs.azure_container_registry }}:latest
 
     - name: Azure CLI Logout
       run: az logout
