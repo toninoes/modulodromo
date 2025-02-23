@@ -23,7 +23,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
+    #environment: ${{ inputs.environment }}
 
     permissions:
       id-token: write
@@ -71,12 +71,13 @@ jobs:
         docker push ${{ env.login_server }}/${{ inputs.azure_container_registry }}:${{ github.sha }}
         docker push ${{ env.login_server }}/${{ inputs.azure_container_registry }}:latest
 
-    - name: Deploy to Azure Web App
+    - name: Deploy to ${{ inputs.environment }} Slot. (Manual Approval Required in Production)
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ inputs.azure_webapp_name }}
-        slot-name: production
+        slot-name: ${{ inputs.environment }}
         images: ${{ env.login_server }}/${{ inputs.azure_container_registry }}:${{ github.sha }}
+      environment: ${{ inputs.environment }}
 
     - name: Azure CLI Logout
       run: az logout
