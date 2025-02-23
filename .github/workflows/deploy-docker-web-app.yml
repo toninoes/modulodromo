@@ -40,7 +40,7 @@ jobs:
 
     - name: Get ACR Login Server
       run: |
-        echo "LOGIN_SERVER=${{ inputs.azure_container_registry }}.azurecr.io" >> $GITHUB_ENV
+        echo "LOGIN_SERVER=$(az acr show --name ${{ inputs.azure_container_registry }} --query loginServer --output tsv)" >> $GITHUB_ENV
 
     - name: Get ACR Username
       run: |
@@ -84,12 +84,16 @@ jobs:
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+    - name: Get ACR Login Server
+      run: |
+        echo "LOGIN_SERVER=$(az acr show --name ${{ inputs.azure_container_registry }} --query loginServer --output tsv)" >> $GITHUB_ENV        
+
     - name: Deploy to Staging Slot.
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ inputs.azure_webapp_name }}
         slot-name: staging
-        images: ${{ inputs.azure_container_registry }}.azurecr.io/${{ inputs.azure_container_registry }}:latest
+        images: ${{ env.LOGIN_SERVER }}/${{ inputs.azure_container_registry }}:latest
 
     - name: Azure CLI Logout
       run: az logout
@@ -111,12 +115,16 @@ jobs:
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+    - name: Get ACR Login Server
+      run: |
+        echo "LOGIN_SERVER=$(az acr show --name ${{ inputs.azure_container_registry }} --query loginServer --output tsv)" >> $GITHUB_ENV        
+
     - name: Deploy to Production Slot. (Manual Approval Required)
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ inputs.azure_webapp_name }}
         slot-name: production
-        images: ${{ inputs.azure_container_registry }}.azurecr.io/${{ inputs.azure_container_registry }}:latest
+        images: ${{ env.LOGIN_SERVER }}/${{ inputs.azure_container_registry }}:latest
 
     - name: Azure CLI Logout
       run: az logout
