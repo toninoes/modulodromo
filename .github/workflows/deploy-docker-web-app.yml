@@ -40,15 +40,15 @@ jobs:
 
     - name: Get ACR Login Server
       run: |
-        echo "::set-output name=login_server::$(az acr show --name ${{ inputs.azure_container_registry }} --query loginServer --output tsv)"
+        echo "login_server=$(az acr show --name ${{ inputs.azure_container_registry }} --query loginServer --output tsv)" >> $GITHUB_ENV
 
     - name: Get ACR Username
       run: |
-        echo "::set-output name=acr_username::$(az acr credential show --name ${{ inputs.azure_container_registry }} --query username --output tsv)"
+        echo "acr_username=$(az acr credential show --name ${{ inputs.azure_container_registry }} --query username --output tsv)" >> $GITHUB_ENV
 
     - name: Get ACR Password
       run: |
-        echo "::set-output name=acr_password::$(az acr credential show --name ${{ inputs.azure_container_registry }} --query "passwords[?name=='password'].value" --output tsv)"
+        echo "acr_password=$(az acr credential show --name ${{ inputs.azure_container_registry }} --query "passwords[?name=='password'].value" --output tsv)" >> $GITHUB_ENV
 
     - name: Login to Azure Container Registry
       uses: azure/docker-login@v2
