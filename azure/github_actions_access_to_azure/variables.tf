@@ -10,6 +10,12 @@ variable "app_display_name" {
   type        = string
 }
 
+variable "branches" {
+  default     = ["main", "develop", "feature-branch"]
+  description = "Possible branches where we can deploy."
+  type        = list(string)
+}
+
 variable "federated_identity_credential_description" {
   default     = "Deployments for my-repo"
   description = "A description for the federated identity credential."

@@ -102,6 +102,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | app\_description | A description of the application, as shown to end users. | `string` | `""` | no |
 | app\_display\_name | The display name for the application. | `string` | n/a | yes |
+| branches | Possible branches where we can deploy. | `list(string)` | <pre>[<br>  "main",<br>  "develop",<br>  "feature-branch"<br>]</pre> | no |
 | federated\_identity\_credential\_description | A description for the federated identity credential. | `string` | `"Deployments for my-repo"` | no |
 | federated\_identity\_credential\_display\_name | A unique display name for the federated identity credential. Changing this forces a new resource to be created. | `string` | `"GitHub-OIDC"` | no |
 | github\_extra\_secrets | Extra GitHub environment secrets. | <pre>list(object({<br>    name  = string<br>    value = string<br>  }))</pre> | `[]` | no |
