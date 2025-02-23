@@ -11,7 +11,7 @@ variable "app_display_name" {
 }
 
 variable "environments" {
-  default     = ["staging", "production"]
+  default     = ["build", "staging", "production"]
   description = "Possible environments where we can deploy."
   type        = list(string)
 }
