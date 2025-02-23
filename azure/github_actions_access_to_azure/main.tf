@@ -30,14 +30,14 @@ resource "azurerm_role_assignment" "this" {
 }
 
 resource "azuread_application_federated_identity_credential" "this" {
-  for_each            = toset(var.branches)
+  for_each            = toset(var.environments)
 
   application_id = azuread_application.this.id
   audiences      = ["api://AzureADTokenExchange"]
   description    = var.federated_identity_credential_description
-  display_name   = "${var.federated_identity_credential_display_name}-${each.key}-Branch"
+  display_name   = "${var.federated_identity_credential_display_name}-${each.key}-Env"
   issuer         = "https://token.actions.githubusercontent.com"
-  subject        = "repo:${var.github_organization}/${var.github_repository}:ref:refs/heads/${each.key}"
+  subject        = "repo:${var.github_organization}/${var.github_repository}:environment:${each.key}"
 }
 
 resource "github_actions_secret" "azure_client_id" {

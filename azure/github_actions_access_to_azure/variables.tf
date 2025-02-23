@@ -10,9 +10,9 @@ variable "app_display_name" {
   type        = string
 }
 
-variable "branches" {
-  default     = ["main", "develop", "feature-branch"]
-  description = "Possible branches where we can deploy."
+variable "environments" {
+  default     = ["staging", "production"]
+  description = "Possible environments where we can deploy."
   type        = list(string)
 }
 
