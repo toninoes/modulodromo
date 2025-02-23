@@ -23,7 +23,8 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    #environment: ${{ inputs.environment }}
+    env:
+      DEPLOY_ENV: ${{ inputs.environment }}
 
     permissions:
       id-token: write
@@ -77,7 +78,8 @@ jobs:
         app-name: ${{ inputs.azure_webapp_name }}
         slot-name: ${{ inputs.environment }}
         images: ${{ env.login_server }}/${{ inputs.azure_container_registry }}:${{ github.sha }}
-      environment: ${{ inputs.environment }}
+      env:
+        DEPLOY_ENV: ${{ inputs.environment }}
 
     - name: Azure CLI Logout
       run: az logout
