@@ -28,11 +28,6 @@ variable "github_organization" {
   type        = string
 }
 
-variable "github_environment" {
-  description = "Name of the environment of the GitHub repository."
-  type        = string
-}
-
 variable "github_extra_secrets" {
   description = "Extra GitHub environment secrets."
   type = list(object({
