@@ -25,10 +25,10 @@ output "container_registry_name" {
 
 output "webapp_url" {
   description = "The default hostname of the Linux Web App."
-  value = azurerm_linux_web_app.this.default_hostname
+  value       = azurerm_linux_web_app.this.default_hostname
 }
 
 output "webapp_slot_url" {
   description = "The default hostname of the Linux Web App Slot."
-  value = azurerm_linux_web_app_slot.this.default_hostname
+  value       = azurerm_linux_web_app_slot.this.default_hostname
 }

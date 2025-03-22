@@ -30,7 +30,7 @@ resource "azurerm_role_assignment" "this" {
 }
 
 resource "azuread_application_federated_identity_credential" "this" {
-  for_each            = toset(var.environments)
+  for_each = toset(var.environments)
 
   application_id = azuread_application.this.id
   audiences      = ["api://AzureADTokenExchange"]

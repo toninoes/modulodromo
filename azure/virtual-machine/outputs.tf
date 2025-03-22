@@ -15,10 +15,10 @@ output "nsg_name" {
 
 output "ssh_key_private_name" {
   description = "Filename for private key file."
-  value = one(local_file.pem[*].filename)
+  value       = one(local_file.pem[*].filename)
 }
 
 output "ssh_key_public_name" {
   description = "Filename for public key file."
-  value = one(local_file.pub[*].filename)
+  value       = one(local_file.pub[*].filename)
 }

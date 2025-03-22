@@ -50,8 +50,8 @@ resource "azurerm_linux_web_app" "this" {
 }
 
 resource "azurerm_linux_web_app_slot" "this" {
-  app_service_id      = azurerm_linux_web_app.this.id
-  name                = var.web_app_slot_name
+  app_service_id = azurerm_linux_web_app.this.id
+  name           = var.web_app_slot_name
 
   site_config {
     always_on                               = true
