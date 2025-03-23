@@ -73,7 +73,7 @@ variable "http_listener" {
 
 variable "name" {
   description = "Name for Application Gateway."
-  type = string
+  type        = string
 }
 
 variable "request_routing_rule" {
