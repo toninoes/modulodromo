@@ -37,12 +37,17 @@ variable "extra_frontend_ip_configurations" {
     name                            = string
     subnet_id                       = optional(string, null)
     private_ip_address              = optional(string, null)
-    public_ip_address_id            = optional(string, null)
     private_ip_address_allocation   = optional(string, "Dynamic")
     private_link_configuration_name = optional(string, null)
   }))
 
   default = []
+}
+
+variable "frontend_ip_configuration_public_name" {
+  type        = string
+  default     = null
+  description = "(Optional) The name of the public Frontend IP Configuration.  If not supplied will be inferred from the resource name."
 }
 
 variable "frontend_ports" {

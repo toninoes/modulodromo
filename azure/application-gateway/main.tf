@@ -39,7 +39,7 @@ resource "azurerm_application_gateway" "this" {
   }
 
   frontend_ip_configuration {
-    name                 = "primary_frontend_configuration"
+    name                 = coalesce(var.frontend_ip_configuration_public_name, local.frontend_ip_configuration_name)
     public_ip_address_id = var.create_public_ip ? azurerm_public_ip.this[0].id : null
   }
 
@@ -50,7 +50,6 @@ resource "azurerm_application_gateway" "this" {
       name                            = frontend_ip_configuration.value.name
       subnet_id                       = frontend_ip_configuration.value.subnet_id
       private_ip_address              = frontend_ip_configuration.value.private_ip_address
-      public_ip_address_id            = frontend_ip_configuration.value.public_ip_address_id
       private_ip_address_allocation   = frontend_ip_configuration.value.private_ip_address_allocation
       private_link_configuration_name = frontend_ip_configuration.value.private_link_configuration_name
     }
@@ -79,7 +78,7 @@ resource "azurerm_application_gateway" "this" {
 
     content {
       name                           = http_listener.value.name
-      frontend_ip_configuration_name = http_listener.value.frontend_ip_configuration_name
+      frontend_ip_configuration_name = coalesce(http_listener.value.frontend_ip_configuration_name, local.frontend_ip_configuration_name, local.frontend_ip_configuration_private_name)
       frontend_port_name             = http_listener.value.frontend_port_name
       host_names                     = http_listener.value.host_names
       protocol                       = http_listener.value.protocol
@@ -114,7 +113,7 @@ resource "azurerm_public_ip" "this" {
 
   allocation_method   = var.sku.tier == "Standard_v2" ? "Dynamic" : "Static"
   location            = data.azurerm_resource_group.this.location
-  name                = "pip-agw"
+  name                = local.public_ip_name
   resource_group_name = var.resource_group_name
   sku                 = var.sku.tier == "Standard_v2" ? "Basic" : "Standard"
   zones               = var.zones
