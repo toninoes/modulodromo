@@ -115,7 +115,6 @@ resource "azurerm_public_ip" "this" {
   location            = data.azurerm_resource_group.this.location
   name                = local.public_ip_name
   resource_group_name = var.resource_group_name
-  sku                 = var.sku.tier == "Standard_v2" ? "Basic" : "Standard"
   zones               = var.zones
   tags                = merge(data.azurerm_resource_group.this.tags, var.tags)
 }
