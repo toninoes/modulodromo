@@ -10,7 +10,7 @@ resource "azurerm_application_gateway" "this" {
   }
 
   dynamic "backend_address_pool" {
-    for_each = var.backend_address_pool
+    for_each = var.backend_address_pools
 
     content {
       name         = backend_address_pool.value.name
@@ -20,7 +20,7 @@ resource "azurerm_application_gateway" "this" {
   }
 
   dynamic "backend_http_settings" {
-    for_each = var.backend_http_settings
+    for_each = var.backend_http_settings_list
 
     content {
       name                                = backend_http_settings.value.name
@@ -38,7 +38,7 @@ resource "azurerm_application_gateway" "this" {
   }
 
   dynamic "frontend_ip_configuration" {
-    for_each = var.frontend_ip_configuration
+    for_each = var.frontend_ip_configurations
 
     content {
       name                            = frontend_ip_configuration.value.name
@@ -51,7 +51,7 @@ resource "azurerm_application_gateway" "this" {
   }
 
   dynamic "frontend_port" {
-    for_each = var.frontend_port
+    for_each = var.frontend_ports
 
     content {
       name = frontend_port.value.name
@@ -60,7 +60,7 @@ resource "azurerm_application_gateway" "this" {
   }
 
   dynamic "gateway_ip_configuration" {
-    for_each = var.gateway_ip_configuration
+    for_each = var.gateway_ip_configurations
 
     content {
       name      = gateway_ip_configuration.value.name
@@ -69,7 +69,7 @@ resource "azurerm_application_gateway" "this" {
   }
 
   dynamic "http_listener" {
-    for_each = var.http_listener
+    for_each = var.http_listeners
 
     content {
       name                           = http_listener.value.name
@@ -85,7 +85,7 @@ resource "azurerm_application_gateway" "this" {
   }
 
   dynamic "request_routing_rule" {
-    for_each = var.request_routing_rule
+    for_each = var.request_routing_rules
 
     content {
       name                        = request_routing_rule.value.name

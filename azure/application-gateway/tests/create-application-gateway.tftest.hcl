@@ -2,13 +2,13 @@ variables {
   name                = "myappgw"
   resource_group_name = "rg-your-rg-name"
 
-  backend_address_pool = [
+  backend_address_pools = [
     {
       name = "my-backend-address-pool"
     }
   ]
 
-  backend_http_settings = [
+  backend_http_settings_list = [
     {
       name                  = "my-backend-http-settings"
       cookie_based_affinity = "Disabled"
@@ -19,28 +19,28 @@ variables {
     }
   ]
 
-  frontend_ip_configuration = [
+  frontend_ip_configurations = [
     {
       name                 = "my-frontend-ip-configuration"
       public_ip_address_id = "public-ip-id"
     }
   ]
 
-  frontend_port = [
+  frontend_ports = [
     {
       name = "my-frontend-port"
       port = 80
     }
   ]
 
-  gateway_ip_configuration = [
+  gateway_ip_configurations = [
     {
       name      = "my-gateway-ip-configuration"
       subnet_id = "/subscriptions/12345678-1234-9876-4563-123456789012/resourceGroups/example-resource-group/providers/Microsoft.Network/virtualNetworks/virtualNetworksValue/subnets/subnetValue"
     }
   ]
 
-  http_listener = [
+  http_listeners = [
     {
       name                           = "my-http-listener"
       frontend_ip_configuration_name = "my-frontend-ip-configuration"
@@ -49,7 +49,7 @@ variables {
     }
   ]
 
-  request_routing_rule = [
+  request_routing_rules = [
     {
       name                       = "my-request-routing-rule"
       priority                   = 9

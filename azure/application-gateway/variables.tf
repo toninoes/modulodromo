@@ -1,4 +1,4 @@
-variable "backend_address_pool" {
+variable "backend_address_pools" {
   description = "List of backend address pools, each containing a name, FQDNs, and/or IP addresses."
   type = list(object({
     name         = string
@@ -7,7 +7,7 @@ variable "backend_address_pool" {
   }))
 }
 
-variable "backend_http_settings" {
+variable "backend_http_settings_list" {
   description = "A list of backend HTTP settings collections, each containing various HTTP settings configurations."
   type = list(object({
     name                           = string
@@ -24,7 +24,7 @@ variable "backend_http_settings" {
   }))
 }
 
-variable "frontend_ip_configuration" {
+variable "frontend_ip_configurations" {
   description = "List of frontend IP configurations, each containing details for the Application Gateway."
 
   type = list(object({
@@ -37,7 +37,7 @@ variable "frontend_ip_configuration" {
   }))
 }
 
-variable "frontend_port" {
+variable "frontend_ports" {
   description = "List of frontend ports."
 
   type = list(object({
@@ -46,7 +46,7 @@ variable "frontend_port" {
   }))
 }
 
-variable "gateway_ip_configuration" {
+variable "gateway_ip_configurations" {
   description = "List of Gateway IP configurations"
 
   type = list(object({
@@ -55,7 +55,7 @@ variable "gateway_ip_configuration" {
   }))
 }
 
-variable "http_listener" {
+variable "http_listeners" {
   description = "A list of HTTP listeners for the Application Gateway, specifying their configurations."
 
   type = list(object({
@@ -76,7 +76,7 @@ variable "name" {
   type        = string
 }
 
-variable "request_routing_rule" {
+variable "request_routing_rules" {
   description = "A list of request routing rules, each specifying the configuration for routing requests in the Application Gateway."
 
   type = list(object({
