@@ -111,7 +111,7 @@ resource "azurerm_application_gateway" "this" {
 resource "azurerm_public_ip" "this" {
   count = var.create_public_ip == true ? 1 : 0
 
-  allocation_method   = var.sku.tier == "Standard_v2" ? "Dynamic" : "Static"
+  allocation_method   = "Static"
   location            = data.azurerm_resource_group.this.location
   name                = local.public_ip_name
   resource_group_name = var.resource_group_name
