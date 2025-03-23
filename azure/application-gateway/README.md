@@ -1,5 +1,7 @@
 # Application Gateway Module
+
 This module manages an Application Gateway.
+
 # Usage
 ```hcl
 module "agw" {
