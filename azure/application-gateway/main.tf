@@ -2,6 +2,7 @@ resource "azurerm_application_gateway" "this" {
   name                = var.name
   resource_group_name = var.resource_group_name
   location            = data.azurerm_resource_group.this.location
+  zones               = var.zones
 
   sku {
     name     = var.sku.name
@@ -37,8 +38,13 @@ resource "azurerm_application_gateway" "this" {
     }
   }
 
+  frontend_ip_configuration {
+    name                 = "primary_frontend_configuration"
+    public_ip_address_id = var.create_public_ip == true ? azurerm_public_ip.this[0].id : null
+  }
+
   dynamic "frontend_ip_configuration" {
-    for_each = var.frontend_ip_configurations
+    for_each = var.extra_frontend_ip_configurations
 
     content {
       name                            = frontend_ip_configuration.value.name
@@ -101,4 +107,16 @@ resource "azurerm_application_gateway" "this" {
   }
 
   tags = merge(data.azurerm_resource_group.this.tags, var.tags)
+}
+
+resource "azurerm_public_ip" "this" {
+  count = var.create_public_ip == true ? 1 : 0
+
+  allocation_method   = var.sku.tier == "Standard" ? "Dynamic" : "Static"
+  location            = data.azurerm_resource_group.this.location
+  name                = "pip-agw"
+  resource_group_name = var.resource_group_name
+  sku                 = var.sku.tier == "Standard" ? "Basic" : "Standard"
+  zones               = var.zones
+  tags                = merge(data.azurerm_resource_group.this.tags, var.tags)
 }

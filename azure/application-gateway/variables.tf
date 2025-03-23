@@ -24,7 +24,13 @@ variable "backend_http_settings_list" {
   }))
 }
 
-variable "frontend_ip_configurations" {
+variable "create_public_ip" {
+  type        = bool
+  default     = true
+  description = "Optional public IP to auto create public id"
+}
+
+variable "extra_frontend_ip_configurations" {
   description = "List of frontend IP configurations, each containing details for the Application Gateway."
 
   type = list(object({
@@ -35,6 +41,8 @@ variable "frontend_ip_configurations" {
     private_ip_address_allocation   = optional(string, "Dynamic")
     private_link_configuration_name = optional(string, null)
   }))
+
+  default = []
 }
 
 variable "frontend_ports" {
@@ -130,4 +138,10 @@ variable "tags" {
   description = "Common tags to be applied to all resources"
   type        = map(string)
   default     = {}
+}
+
+variable "zones" {
+  type        = set(string)
+  default     = ["1", "2", "3"] #["1", "2", "3"]
+  description = "(Optional) Specifies a list of Availability Zones in which this Application Gateway should be located. Changing this forces a new Application Gateway to be created."
 }

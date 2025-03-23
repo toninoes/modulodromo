@@ -19,13 +19,6 @@ variables {
     }
   ]
 
-  frontend_ip_configurations = [
-    {
-      name                 = "my-frontend-ip-configuration"
-      public_ip_address_id = "public-ip-id"
-    }
-  ]
-
   frontend_ports = [
     {
       name = "my-frontend-port"
