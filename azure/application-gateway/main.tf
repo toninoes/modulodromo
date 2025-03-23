@@ -41,7 +41,6 @@ resource "azurerm_application_gateway" "this" {
   frontend_ip_configuration {
     name                 = "primary_frontend_configuration"
     public_ip_address_id = var.create_public_ip ? azurerm_public_ip.this[0].id : null
-    private_ip_address_allocation = var.sku.tier == "Standard" ? "Dynamic" : "Static"
   }
 
   dynamic "frontend_ip_configuration" {
@@ -113,11 +112,11 @@ resource "azurerm_application_gateway" "this" {
 resource "azurerm_public_ip" "this" {
   count = var.create_public_ip == true ? 1 : 0
 
-  allocation_method   = var.sku.tier == "Standard" ? "Dynamic" : "Static"
+  allocation_method   = var.sku.tier == "Standard_v2" ? "Dynamic" : "Static"
   location            = data.azurerm_resource_group.this.location
   name                = "pip-agw"
   resource_group_name = var.resource_group_name
-  sku                 = var.sku.tier == "Standard" ? "Basic" : "Standard"
+  sku                 = var.sku.tier == "Standard_v2" ? "Basic" : "Standard"
   zones               = var.zones
   tags                = merge(data.azurerm_resource_group.this.tags, var.tags)
 }
