@@ -21,7 +21,7 @@ This module performs:
 
 ```hcl
 module "gha_access_azure" {
-  source = "git::git@github.com:toninoes/modulodromo.git//azure/github_actions_access_to_azure"
+  source = "git::git@github.com:toninoes/modulodromo.git//azure/github-actions-access-to-azure"
 
   app_display_name     = "my-app-name"
   github_repository    = "my-repository"

@@ -6,7 +6,7 @@ Creates a containerized App Service
 
 ```hcl
 module "my_app" {
-  source = "git::git@github.com:toninoes/modulodromo.git//azure/app_service_docker"
+  source = "git::git@github.com:toninoes/modulodromo.git//azure/app-service-docker"
 
   app_name            = "myapp"
   resource_group_name = "rg-your-rg-name"

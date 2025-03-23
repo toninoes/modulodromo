@@ -16,7 +16,7 @@ IP packet in a data stream, providing confidentiality, integrity, and authentica
 
 ```hcl
 module "ipsec_vpn" {
-  source = "git::git@github.com:toninoes/modulodromo.git//azure/site_to_site_ipsec_vpn"
+  source = "git::git@github.com:toninoes/modulodromo.git//azure/site-to-site-ipsec-vpn"
 
   address_space              = ["10.0.0.0/16", "10.1.0.0/16"]
   gateway_address            = "123.123.123.123"

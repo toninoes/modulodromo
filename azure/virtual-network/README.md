@@ -6,7 +6,7 @@ Manages a virtual network including any configured subnets
 
 ```hcl
 module "vnet" {
-  source = "git::git@github.com:toninoes/modulodromo.git//azure/virtual_network"
+  source = "git::git@github.com:toninoes/modulodromo.git//azure/virtual-network"
 
   address_space       = ["10.0.0.0/16"]
   resource_group_name = "mi-resource-group-for-vnet"

@@ -6,7 +6,7 @@ Manages a virtual machine
 
 ```hcl
 module "vm" {
-  source = "git::git@github.com:toninoes/modulodromo.git//azure/virtual_machine"
+  source = "git::git@github.com:toninoes/modulodromo.git//azure/virtual-machine"
 
   name                 = "mi-vn-name"
   resource_group_name  = "mi-resource-group-for-vm"
