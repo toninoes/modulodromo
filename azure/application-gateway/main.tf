@@ -40,7 +40,7 @@ resource "azurerm_application_gateway" "this" {
 
   frontend_ip_configuration {
     name                 = "primary_frontend_configuration"
-    public_ip_address_id = var.create_public_ip == true ? azurerm_public_ip.this[0].id : null
+    public_ip_address_id = var.create_public_ip ? azurerm_public_ip.this[0].id : null
   }
 
   dynamic "frontend_ip_configuration" {
