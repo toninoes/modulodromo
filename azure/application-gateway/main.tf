@@ -41,6 +41,7 @@ resource "azurerm_application_gateway" "this" {
   frontend_ip_configuration {
     name                 = "primary_frontend_configuration"
     public_ip_address_id = var.create_public_ip ? azurerm_public_ip.this[0].id : null
+    private_ip_address_allocation = var.sku.tier == "Standard" ? "Dynamic" : "Static"
   }
 
   dynamic "frontend_ip_configuration" {
