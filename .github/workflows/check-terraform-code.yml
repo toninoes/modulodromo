@@ -1,0 +1,27 @@
+name: Check Terraform Code
+
+on:
+  push
+
+jobs:
+  terraform:
+    timeout-minutes: 5
+    runs-on: ubuntu-24-04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ vars.TERRAFORM_DEFAULT_VERSION }}
+
+      - name: Check Terraform format
+        run: terraform fmt -diff -check -recursive .
+
+      - name: Setup Tflint
+        uses: terraform-linters/setup-tflint@v4
+
+      - name: Run Tflint
+        run: tflint --recursive --format compact --disable-rule terraform_module_pinned_source --minimum-failure-severity=warning
