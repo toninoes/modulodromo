@@ -6,7 +6,7 @@ on:
 jobs:
   terraform:
     timeout-minutes: 5
-    runs-on: ubuntu-24-04
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout
