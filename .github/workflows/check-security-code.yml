@@ -14,16 +14,18 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Checkov GitHub Action
         uses: bridgecrewio/checkov-action@v12
         with:
           # This will add both a CLI output to the console and create a results.sarif file
+          compact : true
           log_level: WARNING
           output_file_path: console,results.sarif
           output_format: cli,sarif
           quiet: true
 
-      - name: Upload SARIF file
-        uses: github/codeql-action/upload-sarif@v2
+#      - name: Upload SARIF file
+#        uses: github/codeql-action/upload-sarif@v2
