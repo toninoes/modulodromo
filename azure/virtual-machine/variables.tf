@@ -1,3 +1,20 @@
+variable "admin_username" {
+  default     = "adminuser"
+  description = "The username of the local administrator used for the Virtual Machine. Changing this forces a new resource to be created."
+  type        = string
+}
+
+variable "allow_extension_operations" {
+  description = "Should Extension Operations be allowed on this Virtual Machine?"
+  default = false
+}
+
+variable "enable_public_ip" {
+  default     = true
+  description = "Enable public IP to vitual machine"
+  type        = bool
+}
+
 variable "name" {
   description = "Name to assign to VM"
   type        = string
@@ -14,6 +31,12 @@ variable "resource_group_name" {
   type        = string
 }
 
+variable "size" {
+  default     = "Standard_B2s"
+  description = "The SKU which should be used for this Virtual Machine"
+  type        = string
+}
+
 variable "ss_oo" {
   default     = "linux"
   description = "Operating System. Linux or windows"
@@ -23,12 +46,6 @@ variable "ss_oo" {
     condition     = contains(["linux", "windows"], var.ss_oo)
     error_message = "Invalid environment. You can only can select between linux or windows"
   }
-}
-
-variable "size" {
-  default     = "Standard_B2s"
-  description = "The SKU which should be used for this Virtual Machine"
-  type        = string
 }
 
 variable "subnet_name" {
@@ -41,22 +58,10 @@ variable "virtual_network_name" {
   type        = string
 }
 
-variable "admin_username" {
-  default     = "adminuser"
-  description = "The username of the local administrator used for the Virtual Machine. Changing this forces a new resource to be created."
-  type        = string
-}
-
 variable "windows_admin_pass" {
   default     = "P@$$w0rd1234!"
   description = "The Password which should be used for the local-administrator on this Virtual Machine for Windows. Changing this forces a new resource to be created."
   type        = string
-}
-
-variable "enable_public_ip" {
-  default     = true
-  description = "Enable public IP to vitual machine"
-  type        = bool
 }
 
 variable "ssh_key_pairs_name" {
