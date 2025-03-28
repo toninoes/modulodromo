@@ -16,7 +16,7 @@ resource "azurerm_network_security_group" "bastion" {
 }
 
 resource "azurerm_subnet_network_security_group_association" "bastion" {
-  count = azurerm_subnet.bastion.count
+  count = (length(var.subnet_addresses_for_bastion) == 0) ? 0 : 1
 
   subnet_id                 = azurerm_subnet.bastion[0].id
   network_security_group_id = azurerm_network_security_group.bastion[0].id
