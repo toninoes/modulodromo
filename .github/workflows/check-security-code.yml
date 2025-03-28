@@ -24,7 +24,7 @@ jobs:
           compact : true
           log_level: WARNING
           output_file_path: console,results.sarif
-          output_format: cli,sarif
+          output_format: cli
           quiet: true
           soft_fail: true
 
