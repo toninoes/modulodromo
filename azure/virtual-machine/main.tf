@@ -7,7 +7,7 @@ resource "azurerm_linux_virtual_machine" "this" {
   name                       = var.name
   resource_group_name        = var.resource_group_name
   size                       = var.size
-  allow_extension_operations = false
+  allow_extension_operations = var.allow_extension_operations
 
   network_interface_ids = [
     azurerm_network_interface.this.id,
