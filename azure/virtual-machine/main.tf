@@ -2,11 +2,12 @@
 resource "azurerm_linux_virtual_machine" "this" {
   count = var.ss_oo == "linux" ? 1 : 0
 
-  admin_username      = var.admin_username
-  location            = data.azurerm_resource_group.this.location
-  name                = var.name
-  resource_group_name = var.resource_group_name
-  size                = var.size
+  admin_username             = var.admin_username
+  location                   = data.azurerm_resource_group.this.location
+  name                       = var.name
+  resource_group_name        = var.resource_group_name
+  size                       = var.size
+  allow_extension_operations = var.allow_extension_operations
 
   network_interface_ids = [
     azurerm_network_interface.this.id,
