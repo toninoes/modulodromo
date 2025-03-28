@@ -6,7 +6,7 @@ variable "admin_username" {
 
 variable "allow_extension_operations" {
   description = "Should Extension Operations be allowed on this Virtual Machine?"
-  default = false
+  default     = false
 }
 
 variable "enable_public_ip" {
