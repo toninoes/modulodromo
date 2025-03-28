@@ -2,7 +2,6 @@ name: Scan Security Code
 
 on:
   push
-  workflow_dispatch
 
 jobs:
   scan:
