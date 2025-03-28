@@ -7,6 +7,21 @@ resource "azurerm_subnet" "bastion" {
   address_prefixes     = var.subnet_addresses_for_bastion
 }
 
+resource "azurerm_network_security_group" "bastion" {
+  count = (length(var.subnet_addresses_for_bastion) == 0) ? 0 : 1
+
+  name                = "AzureBastionSubnet-NSG"
+  location            = data.azurerm_resource_group.this.location
+  resource_group_name = var.resource_group_name
+}
+
+resource "azurerm_subnet_network_security_group_association" "bastion" {
+  count = azurerm_subnet.bastion.count
+
+  subnet_id                 = azurerm_subnet.bastion[0].id
+  network_security_group_id = azurerm_network_security_group.bastion[0].id
+}
+
 resource "azurerm_public_ip" "bastion" {
   count = (length(var.subnet_addresses_for_bastion) == 0) ? 0 : 1
 
