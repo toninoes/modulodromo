@@ -25,8 +25,8 @@ jobs:
           # This will add both a CLI output to the console and create a results.sarif file
           compact : true
           log_level: WARNING
+          output_format: cli,sarif
           output_file_path: console,results.sarif
-          output_format: cli
           quiet: true
           soft_fail: true
 
