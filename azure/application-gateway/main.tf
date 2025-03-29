@@ -4,6 +4,11 @@ resource "azurerm_application_gateway" "this" {
   location            = data.azurerm_resource_group.this.location
   zones               = var.zones
 
+  ssl_policy {
+    policy_type          = "Predefined"
+    policy_name          = "AppGwSslPolicy20220101S"
+  }
+
   sku {
     name     = var.sku.name
     tier     = var.sku.tier
