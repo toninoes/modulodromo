@@ -1,4 +1,4 @@
-name: Check Terraform Code
+name: 📐 Check Terraform Code
 
 on:
   push

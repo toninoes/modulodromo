@@ -1,4 +1,4 @@
-name: deploy-docker-web-app
+name: ✈️ Deploy Docker Web App
 
 on:
   workflow_call: # Allows to call this job from another workflow
