@@ -108,10 +108,10 @@ resource "azurerm_application_gateway" "this" {
   dynamic "waf_configuration" {
     for_each = var.waf_configuration != null ? [var.waf_configuration] : []
     content {
-      enabled           = waf_configuration.value.enabled
-      firewall_mode     = waf_configuration.value.firewall_mode
-      rule_set_type     = waf_configuration.value.rule_set_type
-      rule_set_version  = waf_configuration.value.rule_set_version
+      enabled          = waf_configuration.value.enabled
+      firewall_mode    = waf_configuration.value.firewall_mode
+      rule_set_type    = waf_configuration.value.rule_set_type
+      rule_set_version = waf_configuration.value.rule_set_version
     }
   }
 
