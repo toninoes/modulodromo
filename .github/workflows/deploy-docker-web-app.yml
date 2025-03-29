@@ -28,45 +28,45 @@ jobs:
       contents: read
 
     steps:
-    - name: Checkout the code
+    - name: ⬇️ Checkout the code
       uses: actions/checkout@v4
       with:
         ref: ${{ inputs.branch }}
 
-    - name: Azure CLI Login
+    - name: 🔐 Azure CLI Login
       uses: azure/login@v2
       with:
         client-id: ${{ secrets.AZURE_CLIENT_ID }}
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-    - name: Get ACR Login Server
+    - name: 🌐 Get ACR Login Server
       run: |
         echo "LOGIN_SERVER=$(az acr show --name ${{ inputs.azure_container_registry }} --query loginServer --output tsv)" >> $GITHUB_ENV
 
-    - name: Get ACR Username
+    - name: 🙋🏻‍♂️ Get ACR Username
       run: |
         echo "ACR_USERNAME=$(az acr credential show --name ${{ inputs.azure_container_registry }} --query username --output tsv)" >> $GITHUB_ENV
 
-    - name: Get ACR Password
+    - name: 🔢 Get ACR Password
       run: |
         echo "ACR_PASSWORD=$(az acr credential show --name ${{ inputs.azure_container_registry }} --query "passwords[?name=='password'].value" --output tsv)" >> $GITHUB_ENV
 
-    - name: Login to Azure Container Registry
+    - name: 🔐 Login to Azure Container Registry
       uses: azure/docker-login@v2
       with:
         login-server: ${{ env.LOGIN_SERVER }}
         username: ${{ env.ACR_USERNAME }}
         password: ${{ env.ACR_PASSWORD }}
 
-    - name: Build and Push Docker image
+    - name: 🚀 Build and Push Docker image
       run: |
         docker build -t ${{ env.LOGIN_SERVER }}/${{ inputs.azure_container_registry }}:${{ github.sha }} .
         docker tag ${{ env.LOGIN_SERVER }}/${{ inputs.azure_container_registry }}:${{ github.sha }} ${{ env.LOGIN_SERVER }}/${{ inputs.azure_container_registry }}:latest
         docker push ${{ env.LOGIN_SERVER }}/${{ inputs.azure_container_registry }}:${{ github.sha }}
         docker push ${{ env.LOGIN_SERVER }}/${{ inputs.azure_container_registry }}:latest
 
-    - name: Azure CLI Logout
+    - name: ⏻ Azure CLI Logout
       run: az logout
 
   deploy-staging:
@@ -79,25 +79,25 @@ jobs:
       contents: read
 
     steps:
-    - name: Azure CLI Login
+    - name: 🔐 Azure CLI Login
       uses: azure/login@v2
       with:
         client-id: ${{ secrets.AZURE_CLIENT_ID }}
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-    - name: Get ACR Login Server
+    - name: 🌐 Get ACR Login Server
       run: |
         echo "LOGIN_SERVER=$(az acr show --name ${{ inputs.azure_container_registry }} --query loginServer --output tsv)" >> $GITHUB_ENV        
 
-    - name: Deploy to Staging Slot.
+    - name: 🚧 Deploy to Staging Slot.
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ inputs.azure_webapp_name }}
         slot-name: staging
         images: ${{ env.LOGIN_SERVER }}/${{ inputs.azure_container_registry }}:latest
 
-    - name: Azure CLI Logout
+    - name: ⏻ Azure CLI Logout
       run: az logout
 
   deploy-production:
@@ -110,23 +110,23 @@ jobs:
       contents: read
 
     steps:
-    - name: Azure CLI Login
+    - name: 🔐 Azure CLI Login
       uses: azure/login@v2
       with:
         client-id: ${{ secrets.AZURE_CLIENT_ID }}
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-    - name: Get ACR Login Server
+    - name: 🌐 Get ACR Login Server
       run: |
         echo "LOGIN_SERVER=$(az acr show --name ${{ inputs.azure_container_registry }} --query loginServer --output tsv)" >> $GITHUB_ENV        
 
-    - name: Deploy to Production Slot. (Manual Approval Required)
+    - name: 🎯 Deploy to Production Slot. (Manual Approval Required)
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ inputs.azure_webapp_name }}
         slot-name: production
         images: ${{ env.LOGIN_SERVER }}/${{ inputs.azure_container_registry }}:latest
 
-    - name: Azure CLI Logout
+    - name: ⏻ Azure CLI Logout
       run: az logout
