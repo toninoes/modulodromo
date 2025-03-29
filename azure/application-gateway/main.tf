@@ -81,7 +81,7 @@ resource "azurerm_application_gateway" "this" {
       frontend_ip_configuration_name = coalesce(http_listener.value.frontend_ip_configuration_name, local.frontend_ip_configuration_name, local.frontend_ip_configuration_private_name)
       frontend_port_name             = http_listener.value.frontend_port_name
       host_names                     = http_listener.value.host_names
-      protocol                       = http_listener.value.protocol
+      protocol                       = "Https" # CKV_AZURE_217 (https://docs.prismacloud.io/en/enterprise-edition/policy-reference/azure-policies/azure-general-policies/bc-azure-217)
       require_sni                    = http_listener.value.require_sni
       ssl_certificate_name           = http_listener.value.ssl_certificate_name
       firewall_policy_id             = http_listener.value.firewall_policy_id
@@ -102,6 +102,16 @@ resource "azurerm_application_gateway" "this" {
       rewrite_rule_set_name       = request_routing_rule.value.rewrite_rule_set_name
       url_path_map_name           = request_routing_rule.value.url_path_map_name
       priority                    = request_routing_rule.value.priority
+    }
+  }
+
+  dynamic "waf_configuration" {
+    for_each = var.waf_configuration != null ? [var.waf_configuration] : []
+    content {
+      enabled          = waf_configuration.value.enabled
+      firewall_mode    = waf_configuration.value.firewall_mode
+      rule_set_type    = waf_configuration.value.rule_set_type
+      rule_set_version = waf_configuration.value.rule_set_version
     }
   }
 

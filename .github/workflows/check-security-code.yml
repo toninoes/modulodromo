@@ -1,0 +1,37 @@
+name: 🕵️ Scan Security Code
+
+on:
+  push
+
+permissions: read-all
+
+jobs:
+  scan:
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+
+    timeout-minutes: 5
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: ⬇️ Checkout
+        uses: actions/checkout@v4
+
+      - name: 🔎 Checkov GitHub Action
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          # This will add both a CLI output to the console and create a results.sarif file
+          compact : true
+          log_level: WARNING
+          output_format: cli,sarif
+          output_file_path: console,results.sarif
+          quiet: true
+          soft_fail: true
+
+      - name: ⬆️ Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v3
+        if: success() || failure()
+        with:
+          sarif_file: results.sarif

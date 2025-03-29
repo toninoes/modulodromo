@@ -76,7 +76,6 @@ variable "http_listeners" {
     frontend_ip_configuration_name = string
     frontend_port_name             = string
     host_names                     = optional(list(string), [])
-    protocol                       = optional(string, "Https")
     require_sni                    = optional(bool, false)
     ssl_certificate_name           = optional(string, null)
     firewall_policy_id             = optional(string, null)
@@ -143,6 +142,17 @@ variable "tags" {
   description = "Common tags to be applied to all resources"
   type        = map(string)
   default     = {}
+}
+
+variable "waf_configuration" {
+  description = "Application Gateway WAF configuration"
+  type = object({
+    enabled          = optional(bool, true)
+    firewall_mode    = optional(string, "Prevention")
+    rule_set_type    = optional(string, "OWASP")
+    rule_set_version = optional(string, "3.2")
+  })
+  default = null
 }
 
 variable "zones" {

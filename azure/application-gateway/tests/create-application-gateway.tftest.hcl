@@ -38,7 +38,6 @@ variables {
       name                           = "my-http-listener"
       frontend_ip_configuration_name = "my-frontend-ip-configuration"
       frontend_port_name             = "my-frontend-port-name"
-      protocol                       = "Http"
     }
   ]
 
