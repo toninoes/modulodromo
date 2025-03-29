@@ -3,6 +3,8 @@ name: Check Terraform Code
 on:
   push
 
+permissions: read-all
+
 jobs:
   terraform:
     timeout-minutes: 5

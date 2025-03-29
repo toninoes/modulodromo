@@ -16,6 +16,8 @@ on:
         type: string
         required: true
 
+permissions: read-all
+
 jobs:
   build:
     runs-on: ubuntu-latest
