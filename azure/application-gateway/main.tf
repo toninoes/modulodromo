@@ -5,8 +5,8 @@ resource "azurerm_application_gateway" "this" {
   zones               = var.zones
 
   ssl_policy {
-    policy_type          = "Predefined"
-    policy_name          = "AppGwSslPolicy20220101S"
+    policy_type = "Predefined"
+    policy_name = var.ssl_policy_name
   }
 
   sku {
