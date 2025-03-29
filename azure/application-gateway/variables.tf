@@ -1,5 +1,6 @@
 variable "backend_address_pools" {
   description = "List of backend address pools, each containing a name, FQDNs, and/or IP addresses."
+
   type = list(object({
     name         = string
     fqdns        = optional(list(string), [])
@@ -9,6 +10,7 @@ variable "backend_address_pools" {
 
 variable "backend_http_settings_list" {
   description = "A list of backend HTTP settings collections, each containing various HTTP settings configurations."
+
   type = list(object({
     name                           = string
     cookie_based_affinity          = string
@@ -25,9 +27,9 @@ variable "backend_http_settings_list" {
 }
 
 variable "create_public_ip" {
+  description = "Optional public IP to auto create public id"
   type        = bool
   default     = true
-  description = "Optional public IP to auto create public id"
 }
 
 variable "extra_frontend_ip_configurations" {
@@ -45,9 +47,9 @@ variable "extra_frontend_ip_configurations" {
 }
 
 variable "frontend_ip_configuration_public_name" {
+  description = "(Optional) The name of the public Frontend IP Configuration.  If not supplied will be inferred from the resource name."
   type        = string
   default     = null
-  description = "(Optional) The name of the public Frontend IP Configuration.  If not supplied will be inferred from the resource name."
 }
 
 variable "frontend_ports" {
@@ -118,6 +120,12 @@ variable "sku" {
     capacity = number
   })
 
+  default = {
+    name     = "Standard_v2"
+    tier     = "Standard_v2"
+    capacity = 2
+  }
+
   validation {
     condition = (
       contains(["Basic", "Standard_v2", "WAF_v2"], var.sku.name) &&
@@ -130,11 +138,16 @@ variable "sku" {
     )
     error_message = "The 'sku' object must adhere to valid values. Ensure 'name' and 'tier' are among Basic, Standard_v2, or WAF_v2. Also, check that 'capacity' meets the specified limits."
   }
+}
 
-  default = {
-    name     = "Standard_v2"
-    tier     = "Standard_v2"
-    capacity = 2
+variable "ssl_policy_name" {
+  description = "SSL policy name for the Application Gateway"
+  type        = string
+  default     = "AppGwSslPolicy20220101S"
+
+  validation {
+    condition     = contains(["AppGwSslPolicy20170401S", "AppGwSslPolicy20220101", "AppGwSslPolicy20220101S"], var.ssl_policy_name)
+    error_message = "The ssl_policy_name must be one of the following: AppGwSslPolicy20170401S, AppGwSslPolicy20220101, AppGwSslPolicy20220101S."
   }
 }
 
@@ -146,17 +159,19 @@ variable "tags" {
 
 variable "waf_configuration" {
   description = "Application Gateway WAF configuration"
+
   type = object({
     enabled          = optional(bool, true)
     firewall_mode    = optional(string, "Prevention")
     rule_set_type    = optional(string, "OWASP")
     rule_set_version = optional(string, "3.2")
   })
+
   default = null
 }
 
 variable "zones" {
-  type        = set(string)
-  default     = ["1", "2", "3"] #["1", "2", "3"]
   description = "(Optional) Specifies a list of Availability Zones in which this Application Gateway should be located. Changing this forces a new Application Gateway to be created."
+  type        = set(string)
+  default     = ["1", "2", "3"]
 }
